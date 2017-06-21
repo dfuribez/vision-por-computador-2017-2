@@ -87,6 +87,7 @@ class Corel(QMainWindow, gui_class):
     def pasar(self):
         self.imagen = self.nuevo
         self.draw_original(self.imagen, self.titulo)
+        self.fnuevo.clf()
     
     def dialogo(self):
         filename = QFileDialog.getOpenFileName(self, "Abrir archivo", ".")[0]
@@ -237,10 +238,12 @@ class Corel(QMainWindow, gui_class):
             new = filtros.mediana(self.imagen, core)
             self.draw_nuevo(new, "Filtro de la moda con kernel {0}x{0}".format(core))
         else:
+            self.filtro_mediana()
             
 
     def filtro_gauss(self):
-        pass
+        new = filtros.gauss(self.imagen)
+        self.draw_nuevo(new, "Filtro Gauss 3x3")
 
 
 app = QApplication(sys.argv)
