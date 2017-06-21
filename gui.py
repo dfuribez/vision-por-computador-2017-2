@@ -55,6 +55,7 @@ class Corel(QMainWindow, gui_class):
         self.actionMediana.triggered.connect(self.filtro_mediana)
         self.actionModa.triggered.connect(self.filtro_moda)
         self.actionGauss.triggered.connect(self.filtro_gauss)
+        self.actionUmbral.triggered.connect(self.umbral)
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
@@ -88,6 +89,7 @@ class Corel(QMainWindow, gui_class):
         self.imagen = self.nuevo
         self.draw_original(self.imagen, self.titulo)
         self.fnuevo.clf()
+        self.canvas_nuevo.draw_idle()
     
     def dialogo(self):
         filename = QFileDialog.getOpenFileName(self, "Abrir archivo", ".")[0]
@@ -225,8 +227,9 @@ class Corel(QMainWindow, gui_class):
         
         if core:
             new = filtros.moda(self.imagen, core)
+            self.draw_nuevo(new, f"filtro de la moda kernel {core}x{core}")
         else:
-            self.filtro_moda()
+            self.filtro_moda(new, "")
             
     
     def filtro_mediana(self):
@@ -244,6 +247,19 @@ class Corel(QMainWindow, gui_class):
     def filtro_gauss(self):
         new = filtros.gauss(self.imagen)
         self.draw_nuevo(new, "Filtro Gauss 3x3")
+    
+    def umbral(self):
+        umbral = self.get("Elija  un umbral:")
+        if umbral is None:
+            return
+        
+        new = self.imagen.copy()
+        
+        if umbral:
+            new[new > umbral] = 255
+            new[new < umbral] = 0
+            
+            self.draw_nuevo(new, f"Umbralizada: {umbral}")
 
 
 app = QApplication(sys.argv)
