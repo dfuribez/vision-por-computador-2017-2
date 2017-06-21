@@ -78,14 +78,9 @@ def moda(img, tamanio):
             im_part = img[fila-offset:fila+offset+1,columna-offset:columna+offset+1]
             im_part = im_part.ravel()
             
-            for elemento in im_part:
-                if not elemento in moda_elementos:
-                    moda_elementos.append(elemento)
-                    moda_cantidad.append(np.sum(im_part == elemento))
-            
-            moda_index = moda_cantidad.index(max(moda_cantidad))
-            moda = moda_elementos[moda_index]
-            
+            counts = np.bincount(np.int64(im_part))
+            moda = np.argmax(counts)
+
             new[fila, columna] = moda
             
     return new
@@ -121,10 +116,20 @@ def gauss(img):
                     new[fila, columna, channel] = int(nuevo)
     
     return new
-    
 
+def brillo(img, a, b):
+    new = img.copy().astype(float)
+    new = a * new + b
+    new[new > 255] = 255
+    new[new < 0] = 0
+    return new
+            
+
+def contraste(img, a, b):
+    pass
+    
 if __name__ == "__main__":
-    imagen = "../img/Lena.jpg"
+    imagen = "../img/gris.jpg"
     #imagen = "../img/gris.jpg"
     img = ndimage.imread(imagen)
     
@@ -134,6 +139,6 @@ if __name__ == "__main__":
     plt.imshow(img, cmap="gray")
     plt.show()
     
-    new = gauss(img)
+    new = moda(img, 3)
     plt.imshow(new, cmap="gray")
     plt.show()
