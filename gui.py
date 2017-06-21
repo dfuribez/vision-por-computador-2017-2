@@ -56,6 +56,7 @@ class Corel(QMainWindow, gui_class):
         self.actionModa.triggered.connect(self.filtro_moda)
         self.actionGauss.triggered.connect(self.filtro_gauss)
         self.actionUmbral.triggered.connect(self.umbral)
+        self.actionContraste.triggered.connect(self.contraste)
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
@@ -260,6 +261,10 @@ class Corel(QMainWindow, gui_class):
             new[new < umbral] = 0
             
             self.draw_nuevo(new, f"Umbralizada: {umbral}")
+    
+    def contraste(self):
+        a = self.get("Ingrese el contraste")
+        
 
 
 app = QApplication(sys.argv)
