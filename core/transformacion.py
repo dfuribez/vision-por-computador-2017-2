@@ -78,7 +78,7 @@ def core(img, matriz, n_filas=None, n_columnas=None, off_filas=0, off_columnas=0
     
     for fila in range(filas):
         for columna in range(columnas):
-            coor_x, coor_y, z = (np.array([fila, columna, 1]) @ matriz).astype(int)
+            coor_x, coor_y, z = ([fila, columna, 1] @ matriz).astype(int)
             if prof is None:
                 new[coor_x+off_filas, coor_y+off_columnas] = img[fila, columna]
             else:
