@@ -8,13 +8,13 @@ def is_num(text):
         buffer = buffer.replace(char, "")
     
     if buffer.isdigit():
-        return text
+        return int(text)
     else:
         return False
 
 def is_int(text):
     if text.isdigit():
-        return true
+        return int(text)
     else:
         return False
 
