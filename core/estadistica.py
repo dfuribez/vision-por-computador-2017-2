@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun 14 09:44:50 2017
-
-@author: JUANCHO
-"""
 
 import numpy as np
 from scipy import ndimage
@@ -13,22 +8,14 @@ def abrir_imagen(ruta):
     imagen = ndimage.imread(ruta)
     return imagen
 
-
-def rgb2gray1(imagen):
-    """Funcion que convierte una imagen a color a blanco y negro"""
-    
-    filas, columnas = imagen.shape[:2]
-    
-    mascara = np.zeros((filas, columnas), np.uint8)
-    
-    for fila in range(filas):
-        for columna in range(columnas):
-            mascara[fila, columna] = np.uint8(np.average(imagen[fila, columna,:]))
-    
-    return mascara
-
 def rgb2gray(img):
-    return np.uint8(np.dot(img[...,:3], [0.299, 0.587, 0.114]))
+    return np.dot(img[...,:3], [1, 1, 1])
+
+def rgb2gray_uno(img):
+    return np.dot(img[...,:3], [0.2125, 0.7154, 0.0721])
+
+def rgb2gray_dos(img):
+    return np.dot(img[...,:3], [0.5, 0.419, 0.081])
 
 def histograma(img):
     array = []
