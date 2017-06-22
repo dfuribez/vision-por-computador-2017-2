@@ -57,6 +57,9 @@ class Corel(QMainWindow, gui_class):
         self.actionGauss.triggered.connect(self.filtro_gauss)
         self.actionUmbral.triggered.connect(self.umbral)
         self.actionContraste.triggered.connect(self.contraste)
+        self.actionPsimple.triggered.connect(self.gray_simple)
+        self.actionPUno.triggered.connect(self.gray_uno)
+        self.actionPDos.triggered.connect(self.gray_dos)
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
@@ -139,6 +142,19 @@ class Corel(QMainWindow, gui_class):
         self.gray = estadistica.rgb2gray(self.imagen)
         self.draw_nuevo(self.gray, "Escala de grises")
     
+    def gray_simple(self):
+        self.gray = estadistica.rgb2gray(self.imagen)
+        self.draw_nuevo(self.gray, "Escala de grises, promedio")
+    
+    def gray_uno(self):
+        self.gray = estadistica.rgb2gray_uno(self.imagen)
+        self.draw_nuevo(self.gray, "Escala de grises, ponderado uno")
+    
+    def gray_dos(self):
+        self.gray = estadistica.rgb2gray_dos(self.imagen)
+        self.draw_nuevo(self.gray, "Escala de grises, ponderado dos")
+    
+    
     def histograma(self):
         histo = estadistica.histograma(self.imagen)
         self.fnuevo.clf()
@@ -178,7 +194,11 @@ class Corel(QMainWindow, gui_class):
         self.draw_nuevo(nueva, "Mayores que el promedio reciben blanco y menores negro")
     
     def estadisticos(self):
-        gray = self.gray
+        if self.gray is not None:
+            gray = self.gray
+        else:
+            gray = estadistica.rgb2gray(self.imagen)
+
         self.promedio = estadistica.media(gray)
         print("Media de la intensidad de los pixeles:", self.promedio)
 
@@ -191,7 +211,7 @@ class Corel(QMainWindow, gui_class):
         self.moda = estadistica.moda(histo)
         print("Moda:", self.moda)
         
-        text = "Promedio: {0}, Varianza: {1}, Mediana: {2}, Moda: {3}".format(self.promedio,
+        text = "Promedio: {0}, Varianza: {1}, Mediana: {2}, Moda:{3}".format(self.promedio,
                                                                               self.var,
                                                                               self.mediana,
                                                                               self.moda)
@@ -201,11 +221,7 @@ class Corel(QMainWindow, gui_class):
     def get(self, titulo):
         text, ok = QInputDialog.getText(self, "Input Dialog", titulo)
         if ok:
-            text = str(text)
-            if text.isdigit():
-                return int(text)
-            else:
-                return False
+            return str(text)
         else:
             return None
     
@@ -213,6 +229,8 @@ class Corel(QMainWindow, gui_class):
         texto = self.get("Ingrese el tamaño del filtro:")
         if texto is None:
             return
+        
+        texto = common.is_int(texto)
         
         if texto:
             new = filtros.promedio(self.imagen, texto)
@@ -223,8 +241,11 @@ class Corel(QMainWindow, gui_class):
     
     def filtro_moda(self):
         core = self.get("Ingrese el tamaño del filtro:")
+        
         if core is None:
             return 
+        
+        core = common.is_int()
         
         if core:
             new = filtros.moda(self.imagen, core)
@@ -238,6 +259,8 @@ class Corel(QMainWindow, gui_class):
         if core is None:
             return 
         
+        core = common.is_int()
+        
         if core:
             new = filtros.mediana(self.imagen, core)
             self.draw_nuevo(new, "Filtro de la moda con kernel {0}x{0}".format(core))
@@ -250,17 +273,46 @@ class Corel(QMainWindow, gui_class):
         self.draw_nuevo(new, "Filtro Gauss 3x3")
     
     def umbral(self):
-        umbral = self.get("Elija  un umbral:")
+        umbral = self.get("Elija  un umbral <inf>-<sup> o <limite>:")
         if umbral is None:
             return
         
         new = self.imagen.copy()
         
-        if umbral:
-            new[new > umbral] = 255
-            new[new < umbral] = 0
+        if "-" in umbral:
+            umbrales = umbral.split("-")
             
-            self.draw_nuevo(new, f"Umbralizada: {umbral}")
+            if len(umbrales) == 2:
+                u1, u2 = map(int, umbrales)
+                if u1 > u2:
+                    buff_mayor = new < u1
+                    buff_menor = new > u2
+                else:
+                    buff_mayor = new < u2
+                    buff_menor = new > u1
+                
+                mascara = np.logical_and(buff_mayor, buff_menor)
+                new[mascara] = 255
+                
+                mascara = np.logical_not(mascara)
+                new[mascara] = 0
+                
+                titulo = f"umbralizada entre {u1} y {u2}"
+            else:
+                self.umbral()
+        else:
+            
+            umbral = common.is_int(umbral)
+            
+            if umbral:
+                new[new > umbral] = 255
+                new[new < umbral] = 0
+                
+                titulo = f"Umbralizada: {umbral}"
+            else:
+                self.umbral()
+        
+        self.draw_nuevo(new, titulo)
     
     def contraste(self):
         a = self.get("Ingrese el contraste")
