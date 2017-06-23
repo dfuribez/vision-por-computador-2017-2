@@ -8,7 +8,6 @@ from PyQt5.QtGui import QIcon
 
 from core import transformacion
 
-#trans_class = uic.loadUiType("core/transformacion.ui")[0]
 trans_class = uic.loadUiType("core/t1.ui")[0]
 
 class Trans(QMainWindow, trans_class):
