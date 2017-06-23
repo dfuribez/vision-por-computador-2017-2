@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from scipy import ndimage
 
-def abrir_imagen(ruta):
-    """Funcion que abre una imagen y devuelve su matriz"""
-    imagen = ndimage.imread(ruta)
-    return imagen
 
 def rgb2gray(img):
     return np.dot(img[...,:3], [1, 1, 1])
