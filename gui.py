@@ -133,6 +133,11 @@ class Corel(QMainWindow, gui_class):
         lena = self.dialogo()
         
         self.imagen =  ndimage.imread(lena)
+        
+        if len(self.imagen.shape) == 3:
+            if self.imagen.shape[2] >= 4:
+                self.imagen =self.imagen[...,1:]
+        
         nombre = "{0}, ({1}, {2})".format(os.path.split(lena)[-1], *self.imagen.shape[:2])
         self.draw_original(self.imagen, nombre)
         mensaje = "Abierta: {0}, filas: {1}, columnas: {2}".format(nombre,
@@ -141,15 +146,18 @@ class Corel(QMainWindow, gui_class):
     
     
     def rgb2gray(self, tipo):
-        if len(self.imagen.shape) >= 3:
+        shape = self.imagen.shape
+        
+        if len(shape) >= 3:
             if tipo == "promedio":
                 self.gray = estadistica.rgb2gray(self.imagen)
             elif tipo == "uno":
                 self.gray = estadistica.rgb2gray_uno(self.imagen)
             elif tipo == "dos":
                 self.gray = estadistica.rgb2gray_dos(self.imagen)
-        else:
+        elif len(shape) == 2:
             self.gray = self.imagen
+            
         
         self.draw_nuevo(self.gray, f"Escala nde grises método {tipo}")
             
