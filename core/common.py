@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from scipy import ndimage
+
+def abrir_imagen(ruta):
+    """Funcion que abre una imagen y devuelve su matriz"""
+    imagen = ndimage.imread(ruta)
+    return imagen
+
 def is_num(text):
     buffer = text
         
@@ -10,11 +17,11 @@ def is_num(text):
     if buffer.isdigit():
         return int(text)
     else:
-        return False
+        return None
 
 def is_int(text):
     if text.isdigit():
         return int(text)
     else:
-        return False
+        return None
 
