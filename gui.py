@@ -232,15 +232,15 @@ class Corel(QMainWindow, gui_class):
             return None
     
     def filtro_promedio(self):
-        texto = self.get("Ingrese el tamaño del filtro:")
+        core = self.get("Ingrese el tamaño del filtro:")
         if core is None:
             return
         
         core = common.is_int(core)
         
         if core is not None:
-            new = filtros.promedio(self.imagen, texto)
-            self.draw_nuevo(new, "Filtro del promedio kernel: {0}".format(texto))
+            new = filtros.promedio(self.imagen, core)
+            self.draw_nuevo(new, "Filtro del promedio kernel: {0}".format(core))
         else:
             self.filtro_promedio()
             

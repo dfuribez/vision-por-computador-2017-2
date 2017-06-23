@@ -103,9 +103,9 @@ def core(img, tipo, umbral):
     """Función que calcula los bordes de una imagen por Roberts y Sobel.
     
     img: imagen para calcular los bordes.
-    kernels: lista de kernels a aplicar.
-    umbral: umbral a aplicar para decidir si se toma el borde o no.
-    tipo: 1 ó 2, tipo1 bordes Roberts y sobel, tipo 2, bordes Kirshc, robinson"""
+    tipo: Método para la extraccion de bordes disponibles: "sobel", "roberts",
+            "kirsch" y "robinson".
+    umbral: umbral a aplicar para decidir si se toma el borde o no."""
     
     kernels = None
     
