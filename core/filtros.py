@@ -4,6 +4,8 @@ import numpy as np
 from scipy import ndimage
 from matplotlib import pyplot as plt
 
+from core import common
+
 def promedio(img, tamanio=3):
     if not tamanio % 2:
         tamanio += 1
@@ -123,7 +125,48 @@ def brillo_contraste(img, a, b):
     new[new > 255] = 255
     new[new < 0] = 0
     return new
+
+
+def umbralizar(img, umbral):    
+    new = img.copy()
     
+    if "-" in umbral:
+        umbrales = umbral.split("-")
+        
+        if len(umbrales) == 2:
+            u1, u2 = map(int, umbrales)
+            if u1 > u2:
+                buff_mayor = new < u1
+                buff_menor = new > u2
+            else:
+                buff_mayor = new < u2
+                buff_menor = new > u1
+            
+            mascara = np.logical_and(buff_mayor, buff_menor)
+            new[mascara] = 255
+            
+            mascara = np.logical_not(mascara)
+            new[mascara] = 0
+            
+            titulo = f"umbralizada entre {u1} y {u2}"
+        else:
+            # Pedir de nuevo el umbral
+            return None
+    else:
+        
+        umbral = common.is_int(umbral)
+        
+        if umbral is not None:
+            new[new > umbral] = 255
+            new[new < umbral] = 0
+            
+            titulo = f"Umbralizada: {umbral}"
+        else:
+            # Pedir de nuevo el umbral
+            return None
+    
+    return (new, titulo)
+
 if __name__ == "__main__":
     imagen = "../img/gris.jpg"
     #imagen = "../img/gris.jpg"

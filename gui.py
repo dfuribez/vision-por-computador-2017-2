@@ -15,7 +15,6 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from scipy import ndimage
 
 from core import estadistica
-from core import transformacion
 from core import gui_trans
 from core import filtros
 from core import common
@@ -41,7 +40,7 @@ class Corel(QMainWindow, gui_class):
         
         # Acciones
         self.actionAbrir.triggered.connect(self.abrir)
-        self.actionRGB2Gray.triggered.connect(self.RGB2Gray)
+        self.actionRGB2Gray.triggered.connect(lambda x: self.rgb2gray("promedio"))
         self.actionHistograma.triggered.connect(self.histograma)
         self.actionA.triggered.connect(self.a)
         self.actionB.triggered.connect(self.b)
@@ -59,9 +58,9 @@ class Corel(QMainWindow, gui_class):
         self.actionUmbral.triggered.connect(self.umbral)
         self.actionContraste.triggered.connect(lambda x: self.contraste(True))
         self.actionBrillo.triggered.connect(lambda x: self.contraste(False))
-        self.actionPsimple.triggered.connect(self.gray_simple)
-        self.actionPUno.triggered.connect(self.gray_uno)
-        self.actionPDos.triggered.connect(self.gray_dos)
+        self.actionPsimple.triggered.connect(lambda x: self.rgb2gray("promedio"))
+        self.actionPUno.triggered.connect(lambda x: self.rgb2gray("uno"))
+        self.actionPDos.triggered.connect(lambda x: self.rgb2gray("dos"))
         self.actionRoberts.triggered.connect(lambda x: self.calcular_bordes("roberts"))
         self.actionSobel.triggered.connect(lambda x: self.calcular_bordes("sobel"))
         self.actionKirsch.triggered.connect(lambda x: self.calcular_bordes("kirsch"))
@@ -123,8 +122,6 @@ class Corel(QMainWindow, gui_class):
         self.canvas_nuevo.draw_idle()
 
     def abrir(self):
-        print("Abriendo lena...")
-        # REseteo de variables
         self.mediana = 0
         self.moda = 0
         self.promedio = 0
@@ -133,7 +130,6 @@ class Corel(QMainWindow, gui_class):
         self.gray = None
         self.imagen = None
         
-        #lena = "img/Lena.jpg"
         lena = self.dialogo()
         
         self.imagen =  ndimage.imread(lena)
@@ -142,23 +138,21 @@ class Corel(QMainWindow, gui_class):
         mensaje = "Abierta: {0}, filas: {1}, columnas: {2}".format(nombre,
                                                                    *self.imagen.shape[:2])
         self.statusBar().showMessage(mensaje)
+    
+    
+    def rgb2gray(self, tipo):
+        if len(self.imagen.shape) >= 3:
+            if tipo == "promedio":
+                self.gray = estadistica.rgb2gray(self.imagen)
+            elif tipo == "uno":
+                self.gray = estadistica.rgb2gray_uno(self.imagen)
+            elif tipo == "dos":
+                self.gray = estadistica.rgb2gray_dos(self.imagen)
+        else:
+            self.gray = self.imagen
         
-    
-    def RGB2Gray(self):
-        self.gray = estadistica.rgb2gray(self.imagen)
-        self.draw_nuevo(self.gray, "Escala de grises")
-    
-    def gray_simple(self):
-        self.gray = estadistica.rgb2gray(self.imagen)
-        self.draw_nuevo(self.gray, "Escala de grises, promedio")
-    
-    def gray_uno(self):
-        self.gray = estadistica.rgb2gray_uno(self.imagen)
-        self.draw_nuevo(self.gray, "Escala de grises, ponderado uno")
-    
-    def gray_dos(self):
-        self.gray = estadistica.rgb2gray_dos(self.imagen)
-        self.draw_nuevo(self.gray, "Escala de grises, ponderado dos")
+        self.draw_nuevo(self.gray, f"Escala nde grises método {tipo}")
+            
     
     
     def histograma(self):
@@ -283,43 +277,14 @@ class Corel(QMainWindow, gui_class):
         if umbral is None:
             return
         
-        new = self.imagen.copy()
+        umb = filtros.umbralizar(self.imagen, umbral)
         
-        if "-" in umbral:
-            umbrales = umbral.split("-")
-            
-            if len(umbrales) == 2:
-                u1, u2 = map(int, umbrales)
-                if u1 > u2:
-                    buff_mayor = new < u1
-                    buff_menor = new > u2
-                else:
-                    buff_mayor = new < u2
-                    buff_menor = new > u1
-                
-                mascara = np.logical_and(buff_mayor, buff_menor)
-                new[mascara] = 255
-                
-                mascara = np.logical_not(mascara)
-                new[mascara] = 0
-                
-                titulo = f"umbralizada entre {u1} y {u2}"
-            else:
-                self.umbral()
+        if umb is None:
+            self.umbral()
         else:
-            
-            umbral = common.is_int(umbral)
-            
-            if umbral is not None:
-                new[new > umbral] = 255
-                new[new < umbral] = 0
-                
-                titulo = f"Umbralizada: {umbral}"
-            else:
-                self.umbral()
+            new, titulo = umb
+            self.draw_nuevo(new, titulo)
         
-        self.draw_nuevo(new, titulo)
-    
     def contraste(self, contraste=True):
         
         if contraste:
