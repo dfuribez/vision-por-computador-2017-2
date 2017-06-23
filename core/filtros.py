@@ -117,16 +117,12 @@ def gauss(img):
     
     return new
 
-def brillo(img, a, b):
+def brillo_contraste(img, a, b):
     new = img.copy().astype(float)
     new = a * new + b
     new[new > 255] = 255
     new[new < 0] = 0
     return new
-            
-
-def contraste(img, a, b):
-    pass
     
 if __name__ == "__main__":
     imagen = "../img/gris.jpg"
