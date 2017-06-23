@@ -19,6 +19,7 @@ from core import transformacion
 from core import gui_trans
 from core import filtros
 from core import common
+from core import bordes
 
 gui_class = uic.loadUiType("core/corel.ui")[0]
 
@@ -56,10 +57,15 @@ class Corel(QMainWindow, gui_class):
         self.actionModa.triggered.connect(self.filtro_moda)
         self.actionGauss.triggered.connect(self.filtro_gauss)
         self.actionUmbral.triggered.connect(self.umbral)
-        self.actionContraste.triggered.connect(self.contraste)
+        self.actionContraste.triggered.connect(lambda x: self.contraste(True))
+        self.actionBrillo.triggered.connect(lambda x: self.contraste(False))
         self.actionPsimple.triggered.connect(self.gray_simple)
         self.actionPUno.triggered.connect(self.gray_uno)
         self.actionPDos.triggered.connect(self.gray_dos)
+        self.actionRoberts.triggered.connect(lambda x: self.calcular_bordes("roberts"))
+        self.actionSobel.triggered.connect(lambda x: self.calcular_bordes("sobel"))
+        self.actionKirsch.triggered.connect(lambda x: self.calcular_bordes("kirsch"))
+        self.actionRobinson.triggered.connect(lambda x: self.calcular_bordes("robinson"))
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
@@ -227,12 +233,12 @@ class Corel(QMainWindow, gui_class):
     
     def filtro_promedio(self):
         texto = self.get("Ingrese el tamaño del filtro:")
-        if texto is None:
+        if core is None:
             return
         
-        texto = common.is_int(texto)
+        core = common.is_int(core)
         
-        if texto:
+        if core is not None:
             new = filtros.promedio(self.imagen, texto)
             self.draw_nuevo(new, "Filtro del promedio kernel: {0}".format(texto))
         else:
@@ -245,13 +251,13 @@ class Corel(QMainWindow, gui_class):
         if core is None:
             return 
         
-        core = common.is_int()
+        core = common.is_int(core)
         
-        if core:
+        if core is not None:
             new = filtros.moda(self.imagen, core)
             self.draw_nuevo(new, f"filtro de la moda kernel {core}x{core}")
         else:
-            self.filtro_moda(new, "")
+            self.filtro_moda(new)
             
     
     def filtro_mediana(self):
@@ -259,9 +265,9 @@ class Corel(QMainWindow, gui_class):
         if core is None:
             return 
         
-        core = common.is_int()
+        core = common.is_int(core)
         
-        if core:
+        if core is not None:
             new = filtros.mediana(self.imagen, core)
             self.draw_nuevo(new, "Filtro de la moda con kernel {0}x{0}".format(core))
         else:
@@ -304,7 +310,7 @@ class Corel(QMainWindow, gui_class):
             
             umbral = common.is_int(umbral)
             
-            if umbral:
+            if umbral is not None:
                 new[new > umbral] = 255
                 new[new < umbral] = 0
                 
@@ -314,10 +320,43 @@ class Corel(QMainWindow, gui_class):
         
         self.draw_nuevo(new, titulo)
     
-    def contraste(self):
-        a = self.get("Ingrese el contraste")
+    def contraste(self, contraste=True):
         
-
+        if contraste:
+            titulo = "contraste"
+        else:
+            titulo = "brillo"
+            
+        valor = self.get(f"Ingrese el {titulo}:")
+        
+        if valor is None:
+            return 
+        
+        valor = common.is_num(valor)
+        
+        if valor is not None:
+            if contraste:
+                a, b = valor, 0
+            else:
+                a, b = 1, valor
+            
+            new = filtros.brillo_contraste(self.imagen, a, b)
+                
+            self.draw_nuevo(new, f"{titulo} modificado en {valor}")
+        else:
+            self.contraste()
+    
+    def calcular_bordes(self, tipo):
+        umbral = self.get("Seleccione el umbral:")
+        if umbral is None:
+            return
+        
+        umbral = common.is_int(umbral)
+        if umbral is not None:
+            im_bordes = bordes.core(self.imagen, tipo, umbral)
+            self.draw_nuevo(im_bordes, f"Bordes {tipo}, umbral: {umbral}")
+        else:
+            self.calcular_bordes(tipo)
 
 app = QApplication(sys.argv)
 corel = Corel(None)
