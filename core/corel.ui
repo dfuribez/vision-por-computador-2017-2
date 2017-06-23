@@ -136,10 +136,21 @@
     <addaction name="menuFiltros"/>
     <addaction name="actionUmbral"/>
    </widget>
+   <widget class="QMenu" name="menuBordes">
+    <property name="title">
+     <string>Bordes</string>
+    </property>
+    <addaction name="actionRoberts"/>
+    <addaction name="actionSobel"/>
+    <addaction name="separator"/>
+    <addaction name="actionKirsch"/>
+    <addaction name="actionRobinson"/>
+   </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuEstadistica"/>
    <addaction name="menuTRansformaciones"/>
    <addaction name="menuSegmentaci_n"/>
+   <addaction name="menuBordes"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbrir">
@@ -245,6 +256,26 @@
   <action name="actionUmbral">
    <property name="text">
     <string>Umbral</string>
+   </property>
+  </action>
+  <action name="actionRoberts">
+   <property name="text">
+    <string>Roberts</string>
+   </property>
+  </action>
+  <action name="actionSobel">
+   <property name="text">
+    <string>Sobel</string>
+   </property>
+  </action>
+  <action name="actionKirsch">
+   <property name="text">
+    <string>Kirsch</string>
+   </property>
+  </action>
+  <action name="actionRobinson">
+   <property name="text">
+    <string>Robinson</string>
    </property>
   </action>
  </widget>
