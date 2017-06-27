@@ -134,17 +134,23 @@ def core(img, tipo, umbral):
     
     for fila in range(offset, filas - offset):
         for columna in range(offset, columnas - offset):
+            conv = [0] * len(kernels)
             if impar:
                 #print("Impar")
-                window = img[fila-offset:fila+offset+1,columna-offset:columna+offset+1]
+#                window = img[fila-offset:fila+offset+1,columna-offset:columna+offset+1]
+                
+                for x in range(filas_k):
+                    for y in range(filas_k):
+                        for index_k in range(len(kernels)):
+#                            print(index_k)
+                            conv[index_k] += img[fila-offset+x, columna-offset+y]* kernels[index_k][x, y]
             else:
                 #print("Par")
                 window = img[fila:fila+2, columna:columna+2]
         
-            conv = []
             # Aplicamos la convolución para todos los filtros
-            for kernel in kernels:
-                conv.append(np.sum(window * kernel))
+#            for kernel in kernels:
+#                conv.append(np.sum(window * kernel))
         
             # Calculamos la magnitud
             if clase == 1:
@@ -164,26 +170,36 @@ def core(img, tipo, umbral):
     
 
 if __name__ == "__main__":
-    import filtros
+    import cProfile
+    #import filtros
     import estadistica
     from scipy import ndimage
     from matplotlib import pyplot as plt
+
     imagen = "../img/Lena.jpg"
     img = ndimage.imread(imagen)
-    img = estadistica.rgb2gray_dos(img)
-    img = filtros.gauss(img)
+    img = estadistica.rgb2gray_dos(img)    
     
+    def main():
+
+        #img = filtros.gauss(img)
+        
+        
+        # Roberts
+        #bordes = core(img, [rx, ry], 20)
+        
+        # Sobel
+        bordes = core(img, "sobel", 180)
+        
+        #bordes = roberts(img, 20)
+        
+        #plt.imshow(img, cmap="gray")
+        #plt.show()
+        
+        plt.imshow(bordes, cmap="gray")
+        plt.show()
+        return bordes
     
-    # Roberts
-    #bordes = core(img, [rx, ry], 20)
-    
-    # Sobel
-    bordes = core(img, "robinson", 20)
-    
-    #bordes = roberts(img, 20)
-    
-    plt.imshow(img, cmap="gray")
-    plt.show()
-    
-    plt.imshow(bordes, cmap="gray")
-    plt.show()
+#    cProfile.run("main()", sort="time")
+
+    main()

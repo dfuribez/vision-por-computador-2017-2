@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Jun 15 14:52:49 2017
-
-@author: Estudiante
-"""
 
 import numpy as np
 from scipy import ndimage
@@ -57,7 +52,8 @@ def mat_rotacion_z(angulo):
     
     return mat
 
-def core(img, matriz, n_filas=None, n_columnas=None, off_filas=0, off_columnas=0):
+def core(img, matriz, n_filas=None, n_columnas=None,
+         off_filas=0, off_columnas=0):
     
     shape = img.shape
     
@@ -69,34 +65,87 @@ def core(img, matriz, n_filas=None, n_columnas=None, off_filas=0, off_columnas=0
         n_columnas = columnas
     
     if len(shape) == 2:
-        prof = None
-        new = np.ones((n_filas, n_columnas), np.uint8) * 255
+        shape = (n_filas, n_columnas)
     else:
-        prof = shape[-1]
-        new = np.ones((n_filas, n_columnas, prof), np.uint8) * 255
-    
+        shape = (n_filas, n_columnas, shape[-1])
+        
+    new = np.zeros(shape, np.uint8)
     
     for fila in range(filas):
         for columna in range(columnas):
+            
             coor_x, coor_y, z = ([fila, columna, 1] @ matriz).astype(int)
-            if prof is None:
-                new[coor_x+off_filas, coor_y+off_columnas] = img[fila, columna]
-            else:
-                new[coor_x+off_filas, coor_y+off_columnas,:] = img[fila, columna,:]
+            
+            new[coor_x+off_filas, coor_y+off_columnas,...] = img[fila, columna,...]
                 
     
     return new
 
-if __name__ == "__main__":
-    import estadistica
-    img = ndimage.imread("../img/trans.jpg")
+def interpolar(img, factor):
     
-    #plt.imshow(img)
-    #plt.show()
-    # TRasladar
+    shape = img.shape
+    filas, columnas = shape[:2]
+    
+    for fila in range(0, filas, factor):
+        try:
+            izq = img[fila,...]
+            der = img[fila+factor,...]
+            centro = int(np.ceil((factor - 1) / 2))
+            for pixel in range(1, factor):
+                #if pixel < centro:
+                    #new_pixel = izq
+                #elif pixel == centro:
+                    #new_pixel = (izq + der) / 2
+                #else:
+                    #new_pixel = der
+                #new_pixel = (izq +der) // 2
+                new_pixel = izq
+                img[fila+pixel,...] = new_pixel
+        except:
+            pass
+    
+    for columna in range(0, columnas, factor):
+        try:
+            izq = img[:,columna,...]
+            der = img[:,columna,...]
+            centro = int(np.ceil((factor - 1 ) / 2))
+            for pixel in range(1, factor):
+                #if pixel < centro:
+                    #new_pixel = izq
+                #elif pixel == centro:
+                    #new_pixel = (izq + der) / 2
+                #else:
+                    #new_pixel = der
+                #new_pixel = (izq + der) // 2
+                new_pixel = izq
+                img[:,columna+pixel,...] = new_pixel
+        except:
+            pass
+    return img
+    
+
+if __name__ == "__main__":
+    A = 2
+    #img = np.arange(1, 16).reshape(3, 5)
+    img = ndimage.imread("../img/gris.jpg")
+    #img = img[:,:,0]
+    mat = np.identity(3) * A
+    
     print(img.shape)
-    mat = np.identity(3)
-    #print(mat)
-    im = core(img, mat)
-    plt.imshow(im)
+    
+    nfilas, ncolumnas = [x * A for x in img.shape[:2]]
+    
+    new = core(img, mat, nfilas, ncolumnas)
+    
+    print(new.shape)
+
+    plt.imshow(new, cmap="gray")
     plt.show()
+    
+    new = interpolar(new, A)
+    
+    print(new.shape)
+    plt.imshow(new, cmap="gray")
+    plt.show()
+    
+    

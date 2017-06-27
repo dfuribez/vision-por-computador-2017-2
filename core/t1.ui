@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>686</width>
-    <height>218</height>
+    <width>690</width>
+    <height>214</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -113,6 +113,16 @@
        </widget>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="chkInter">
+       <property name="text">
+        <string>Interpolar</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QFrame" name="frmEscalado">
@@ -157,9 +167,9 @@
    <widget class="QFrame" name="frmTraslacion">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>400</y>
-      <width>291</width>
+      <x>230</x>
+      <y>480</y>
+      <width>271</width>
       <height>71</height>
      </rect>
     </property>
@@ -190,6 +200,29 @@
        <width>141</width>
        <height>21</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="txtX">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TRaslación en x:</string>
      </property>
     </widget>
    </widget>
@@ -274,36 +307,13 @@
      </property>
     </widget>
    </widget>
-   <widget class="QTextEdit" name="txtX">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>410</y>
-      <width>141</width>
-      <height>21</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>410</y>
-      <width>111</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TRaslación en x:</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>686</width>
+     <width>690</width>
      <height>25</height>
     </rect>
    </property>

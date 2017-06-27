@@ -15,7 +15,7 @@ def is_num(text):
         buffer = buffer.replace(char, "")
     
     if buffer.isdigit():
-        return int(text)
+        return float(text)
     else:
         return None
 
