@@ -38,8 +38,6 @@
             <layout class="QVBoxLayout" name="imgOriginal"/>
            </item>
           </layout>
-          <zorder>verticalLayoutWidget</zorder>
-          <zorder>groupBox_2</zorder>
          </widget>
         </item>
         <item>
@@ -74,8 +72,6 @@
             <layout class="QVBoxLayout" name="imgNuevo"/>
            </item>
           </layout>
-          <zorder>verticalLayoutWidget_2</zorder>
-          <zorder>groupBox</zorder>
          </widget>
         </item>
        </layout>
@@ -166,6 +162,8 @@
     <addaction name="menuBrillo_y_contraste"/>
     <addaction name="menuFiltros"/>
     <addaction name="actionUmbral"/>
+    <addaction name="separator"/>
+    <addaction name="actionInvertir"/>
    </widget>
    <widget class="QMenu" name="menuBordes">
     <property name="title">
@@ -177,11 +175,18 @@
     <addaction name="actionKirsch"/>
     <addaction name="actionRobinson"/>
    </widget>
+   <widget class="QMenu" name="menuMorfolog_a">
+    <property name="title">
+     <string>Morfología</string>
+    </property>
+    <addaction name="actionMorfolog_a"/>
+   </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuEstadistica"/>
    <addaction name="menuTRansformaciones"/>
    <addaction name="menuSegmentaci_n"/>
    <addaction name="menuBordes"/>
+   <addaction name="menuMorfolog_a"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbrir">
@@ -307,6 +312,16 @@
   <action name="actionRobinson">
    <property name="text">
     <string>Robinson</string>
+   </property>
+  </action>
+  <action name="actionMorfolog_a">
+   <property name="text">
+    <string>Morfología</string>
+   </property>
+  </action>
+  <action name="actionInvertir">
+   <property name="text">
+    <string>Invertir</string>
    </property>
   </action>
  </widget>
