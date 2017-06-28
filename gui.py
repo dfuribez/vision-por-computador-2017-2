@@ -15,12 +15,15 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from scipy import ndimage
 
 from core import estadistica
-from core import gui_trans
 from core import filtros
 from core import common
 from core import bordes
 
-gui_class = uic.loadUiType("core/corel.ui")[0]
+
+from gui import trans
+from gui import morf
+
+gui_class = uic.loadUiType("gui/ui/main.ui")[0]
 
 class Corel(QMainWindow, gui_class):
     
@@ -65,13 +68,17 @@ class Corel(QMainWindow, gui_class):
         self.actionSobel.triggered.connect(lambda x: self.calcular_bordes("sobel"))
         self.actionKirsch.triggered.connect(lambda x: self.calcular_bordes("kirsch"))
         self.actionRobinson.triggered.connect(lambda x: self.calcular_bordes("robinson"))
+        self.actionMorfolog_a.triggered.connect(lambda x: self.window_morfo.show())
+        self.actionInvertir.triggered.connect(self.invertir)
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
         self.imgNuevo.addWidget(self.canvas_nuevo)
         
         # transformaciones
-        self.window_trans = gui_trans.Trans(self)
+        self.window_trans = trans.Trans(self)
+        self.window_morfo = morf.Morfo(self)
+        #self.window_morfo.show()
     
     def menu(self):
         menubar  = self.menuBar()
@@ -330,6 +337,11 @@ class Corel(QMainWindow, gui_class):
             self.draw_nuevo(im_bordes, f"Bordes {tipo}, umbral: {umbral}")
         else:
             self.calcular_bordes(tipo)
+    
+    def invertir(self):
+        maximo = np.amax(self.imagen)
+        new = maximo - self.imagen
+        self.draw_nuevo(new, "Invertida")
 
 app = QApplication(sys.argv)
 corel = Corel(None)
