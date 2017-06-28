@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1090</width>
+    <height>724</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Corel</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,1">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetNoConstraint</enum>
+        </property>
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Original:</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <layout class="QVBoxLayout" name="imgOriginal"/>
+           </item>
+          </layout>
+          <zorder>verticalLayoutWidget</zorder>
+          <zorder>groupBox_2</zorder>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnPasar">
+          <property name="minimumSize">
+           <size>
+            <width>2</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Intercambiar imagenes</string>
+          </property>
+          <property name="text">
+           <string>&lt;-</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Procesada:</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <layout class="QVBoxLayout" name="imgNuevo"/>
+           </item>
+          </layout>
+          <zorder>verticalLayoutWidget_2</zorder>
+          <zorder>groupBox</zorder>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblEstadistica">
+        <property name="maximumSize">
+         <size>
+          <width>659</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1090</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="actionAbrir"/>
+    <addaction name="actionGuardar"/>
+   </widget>
+   <widget class="QMenu" name="menuEstadistica">
+    <property name="title">
+     <string>Estadistica</string>
+    </property>
+    <addaction name="actionRGB2Gray"/>
+    <addaction name="actionEstadisticos"/>
+    <addaction name="actionHistograma"/>
+    <addaction name="separator"/>
+    <addaction name="actionA"/>
+    <addaction name="actionB"/>
+    <addaction name="actionC"/>
+    <addaction name="actionD"/>
+    <addaction name="actionE"/>
+   </widget>
+   <widget class="QMenu" name="menuTRansformaciones">
+    <property name="title">
+     <string>Transformaciones</string>
+    </property>
+    <addaction name="actionTransformar"/>
+   </widget>
+   <widget class="QMenu" name="menuSegmentaci_n">
+    <property name="title">
+     <string>Segmentación</string>
+    </property>
+    <widget class="QMenu" name="menuEscalas_de_gris">
+     <property name="title">
+      <string>Escalas de gris</string>
+     </property>
+     <addaction name="actionPsimple"/>
+     <addaction name="actionPUno"/>
+     <addaction name="actionPDos"/>
+    </widget>
+    <widget class="QMenu" name="menuBrillo_y_contraste">
+     <property name="title">
+      <string>Brillo y contraste</string>
+     </property>
+     <addaction name="actionBrillo"/>
+     <addaction name="actionContraste"/>
+    </widget>
+    <widget class="QMenu" name="menuFiltros">
+     <property name="title">
+      <string>Filtros</string>
+     </property>
+     <addaction name="actionPromedio"/>
+     <addaction name="actionMediana"/>
+     <addaction name="actionModa"/>
+     <addaction name="actionGauss"/>
+    </widget>
+    <addaction name="menuEscalas_de_gris"/>
+    <addaction name="separator"/>
+    <addaction name="menuBrillo_y_contraste"/>
+    <addaction name="menuFiltros"/>
+    <addaction name="actionUmbral"/>
+   </widget>
+   <widget class="QMenu" name="menuBordes">
+    <property name="title">
+     <string>Bordes</string>
+    </property>
+    <addaction name="actionRoberts"/>
+    <addaction name="actionSobel"/>
+    <addaction name="separator"/>
+    <addaction name="actionKirsch"/>
+    <addaction name="actionRobinson"/>
+   </widget>
+   <addaction name="menuArchivo"/>
+   <addaction name="menuEstadistica"/>
+   <addaction name="menuTRansformaciones"/>
+   <addaction name="menuSegmentaci_n"/>
+   <addaction name="menuBordes"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAbrir">
+   <property name="text">
+    <string>Abrir</string>
+   </property>
+  </action>
+  <action name="actionHistograma">
+   <property name="text">
+    <string>Histograma</string>
+   </property>
+  </action>
+  <action name="actionRGB2Gray">
+   <property name="text">
+    <string>RGB2Gray</string>
+   </property>
+  </action>
+  <action name="actionA">
+   <property name="text">
+    <string>a</string>
+   </property>
+  </action>
+  <action name="actionB">
+   <property name="text">
+    <string>b</string>
+   </property>
+  </action>
+  <action name="actionC">
+   <property name="text">
+    <string>c</string>
+   </property>
+  </action>
+  <action name="actionD">
+   <property name="text">
+    <string>d</string>
+   </property>
+  </action>
+  <action name="actionE">
+   <property name="text">
+    <string>e</string>
+   </property>
+  </action>
+  <action name="actionEstadisticos">
+   <property name="text">
+    <string>Estadisticos</string>
+   </property>
+  </action>
+  <action name="actionGuardar">
+   <property name="text">
+    <string>Guardar</string>
+   </property>
+  </action>
+  <action name="actionTransformar">
+   <property name="text">
+    <string>Transformar</string>
+   </property>
+  </action>
+  <action name="actionPsimple">
+   <property name="text">
+    <string>Promedio simple</string>
+   </property>
+  </action>
+  <action name="actionPUno">
+   <property name="text">
+    <string>Ponderado uno</string>
+   </property>
+  </action>
+  <action name="actionPDos">
+   <property name="text">
+    <string>Ponderado dos</string>
+   </property>
+  </action>
+  <action name="actionBrillo">
+   <property name="text">
+    <string>Brillo</string>
+   </property>
+  </action>
+  <action name="actionContraste">
+   <property name="text">
+    <string>Contraste</string>
+   </property>
+  </action>
+  <action name="actionPromedio">
+   <property name="text">
+    <string>Promedio</string>
+   </property>
+  </action>
+  <action name="actionMediana">
+   <property name="text">
+    <string>Mediana</string>
+   </property>
+  </action>
+  <action name="actionModa">
+   <property name="text">
+    <string>Moda</string>
+   </property>
+  </action>
+  <action name="actionGauss">
+   <property name="text">
+    <string>Gauss</string>
+   </property>
+  </action>
+  <action name="actionUmbral">
+   <property name="text">
+    <string>Umbral</string>
+   </property>
+  </action>
+  <action name="actionRoberts">
+   <property name="text">
+    <string>Roberts</string>
+   </property>
+  </action>
+  <action name="actionSobel">
+   <property name="text">
+    <string>Sobel</string>
+   </property>
+  </action>
+  <action name="actionKirsch">
+   <property name="text">
+    <string>Kirsch</string>
+   </property>
+  </action>
+  <action name="actionRobinson">
+   <property name="text">
+    <string>Robinson</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

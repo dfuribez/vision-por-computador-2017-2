@@ -49,8 +49,9 @@ if __name__ == "__main__":
     plt.imshow(img, cmap="gray")
     plt.show()
     
-    dil = core(img, kernel, "ero")
-    plt.imshow(dil, cmap="gray")
+    dil = core(img, kernel, "dil")
+    
+    plt.imshow(img - dil, cmap="gray")
     plt.show()
     dil = core(dil, kernel, "dil")
     
