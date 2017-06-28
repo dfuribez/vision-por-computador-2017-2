@@ -171,10 +171,14 @@ class Corel(QMainWindow, gui_class):
     
     
     def histograma(self):
+        if len(self.imagen.shape) == 3:
+            img = estadistica.rgb2gray(self.imagen)
+        else:
+            img = self.imagen
         histo = estadistica.histograma(self.imagen)
         self.fnuevo.clf()
         plot = self.fnuevo.add_subplot(111)
-        plot.bar(np.arange(256), histo)
+        plot.plot(np.arange(256), histo)
         plot.set_title("Histograma")
         self.canvas_nuevo.draw_idle()
         
