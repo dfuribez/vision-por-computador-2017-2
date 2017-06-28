@@ -6,146 +6,205 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
-    <height>330</height>
+    <width>599</width>
+    <height>277</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Operaciones morfológicas</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>200</y>
-      <width>104</width>
-      <height>75</height>
+      <x>10</x>
+      <y>10</y>
+      <width>181</width>
+      <height>141</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>200</y>
-      <width>104</width>
-      <height>75</height>
-     </rect>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
+    <property name="title">
+     <string>Operaciones</string>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>161</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="rdDilatacion">
+        <property name="text">
+         <string>Dilatación</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rdErosion">
+        <property name="text">
+         <string>Erosión</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rdApertura">
+        <property name="text">
+         <string>Apertura</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="rdCierre">
+        <property name="text">
+         <string>cierre</string>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
+      <y>150</y>
+      <width>160</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Iteraciones:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPlainTextEdit" name="txtIter">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="plainText">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
       <y>20</y>
-      <width>109</width>
-      <height>22</height>
+      <width>20</width>
+      <height>211</height>
      </rect>
     </property>
-    <property name="text">
-     <string>RadioButton</string>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QPushButton" name="cmdAceptar">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>50</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_3">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>100</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_4">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>140</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_5">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>40</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_6">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>90</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_7">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>140</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_8">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>180</y>
-      <width>109</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RadioButton</string>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit_3">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
       <y>200</y>
-      <width>104</width>
-      <height>75</height>
+      <width>161</width>
+      <height>27</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Aceptar</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="txtElemento">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>20</y>
+      <width>181</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;Arabic Newspaper&quot;;</string>
+    </property>
+    <property name="plainText">
+     <string>010
+111
+010</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>20</y>
+      <width>160</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="cmdCuadrado">
+       <property name="text">
+        <string>Cuadrado</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cmdCruz">
+       <property name="text">
+        <string>Cruz</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cmdDiagonal">
+       <property name="text">
+        <string>Diagonal</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>20</y>
+      <width>20</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>
@@ -154,7 +213,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>635</width>
+     <width>599</width>
      <height>25</height>
     </rect>
    </property>
@@ -163,4 +222,8 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>
