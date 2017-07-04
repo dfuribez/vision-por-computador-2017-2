@@ -29,7 +29,7 @@ def core(img, kernel, op="dil"):
                 for y in range(columnas_k):
                     if kernel[x, y]:
                         new[fila-offset_x+x, columna-offset_y+y] = value
-    
+    #print(new)
     return new
 
 if __name__ == "__main__":
