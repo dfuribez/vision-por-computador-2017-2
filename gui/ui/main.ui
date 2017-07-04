@@ -181,12 +181,20 @@
     </property>
     <addaction name="actionMorfolog_a"/>
    </widget>
+   <widget class="QMenu" name="menuEtiquetar">
+    <property name="title">
+     <string>Etiquetar</string>
+    </property>
+    <addaction name="actionEtiquetar"/>
+    <addaction name="actionVer"/>
+   </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuEstadistica"/>
    <addaction name="menuTRansformaciones"/>
    <addaction name="menuSegmentaci_n"/>
    <addaction name="menuBordes"/>
    <addaction name="menuMorfolog_a"/>
+   <addaction name="menuEtiquetar"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbrir">
@@ -322,6 +330,16 @@
   <action name="actionInvertir">
    <property name="text">
     <string>Invertir</string>
+   </property>
+  </action>
+  <action name="actionEtiquetar">
+   <property name="text">
+    <string>Etiquetar</string>
+   </property>
+  </action>
+  <action name="actionVer">
+   <property name="text">
+    <string>Ver etiquetas</string>
    </property>
   </action>
  </widget>
