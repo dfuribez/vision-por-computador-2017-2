@@ -153,6 +153,9 @@ def circularidad(img):
     a = area(img)
     p = perimetro(img)
     
+    if p == 0:
+        return 0
+    
     #c = (p ** 2) / (4 * 3.1416 * a)
     c = (4 * 3.1416 * a) / (p ** 2)
     return c
@@ -164,6 +167,9 @@ def centroide(img):
     
     filas, columnas = img.shape
     a = area(img)
+    if a == 0:
+        return 0, 0
+    
     cx, cy = 0, 0
     for fila in range(filas):
         for columna in range(columnas):
