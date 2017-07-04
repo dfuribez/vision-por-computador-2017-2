@@ -116,8 +116,16 @@ def roi(img, etiqueta):
                 y4 = 0
                 break
     
+    roi = img[x1:x2, x3:x4].copy()
+    
+    fondo = (roi == 0)
+    otros = (roi != etiqueta) 
+    
+    change = np.logical_xor(fondo, otros)
+    
+    roi[change] = 0
     #print ((x1, y1), (x2, y2), (x3, y3), (x4, y4))
-    return img[x1:x2, x3:x4]
+    return roi
 
 def perimetro(img):
     """Calcula el perimetro de un objeto.
@@ -126,7 +134,9 @@ def perimetro(img):
     
     Devuelve el perimetro del elemento
     """
-    img = img // np.amax(img)
+    maximo = np.amax(img)
+    if maximo > 1:
+        img = img // np.amax(img)
     filas, columnas = img.shape
     new = np.zeros((filas + 2, columnas + 2))
     new[1:-1, 1:-1] = img
