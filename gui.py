@@ -114,7 +114,7 @@ class Corel(QMainWindow, gui_class):
         self.canvas_nuevo.draw_idle()
     
     def dialogo(self):
-        filename = QFileDialog.getOpenFileName(self, "Abrir archivo", ".")[0]
+        filename = QFileDialog.getOpenFileName(self, "Abrir archivo", ".", "Images (*.png *.jpg *.jpeg *.bmp)")[0]
         print(filename)
         return filename
     
