@@ -32,7 +32,7 @@ class Label(QMainWindow, gui_label):
         self.cmbElemento.activated.connect(self.seleccionado)
         
         self.layout.addWidget(self.canvas_elemento)
-        self.lblPropiedades.setText("assad\r\nasdasda\r\nadasda\r\nasdasdasd")
+        #self.lblPropiedades.setText("assad\r\nasdasda\r\nadasda\r\nasdasdasd")
         
         self.combo()
     
@@ -55,13 +55,17 @@ class Label(QMainWindow, gui_label):
     def combo(self):
         self.cmbElemento.clear()
         self.cmbElemento.addItems(map(str, self.elementos))
+        self.setWindowTitle(f"{len(self.elementos)} elementos.")
     
     def propiedades(self, img):
         
         area = etiquetar.area(img)
         perimetro = etiquetar.perimetro(img)
         cx, cy = etiquetar.centroide(img)
-        circu = (4 * 3.1416 * area) / (perimetro ** 2)
+        if perimetro == 0:
+            circu = 0
+        else:
+            circu = (4 * 3.1416 * area) / (perimetro ** 2)
         filas, columnas = img.shape
         rec = area / (filas * columnas)
         return f"Área: {area}\r\nPerimetro: {perimetro}\r\nCentroide: ({cx:.2f}, {cy:.2f})\r\nCircularidad: {circu:.4f}\r\nDimensiones: ({filas}, {columnas})\r\nRectangularidad: {rec:.2f}"
