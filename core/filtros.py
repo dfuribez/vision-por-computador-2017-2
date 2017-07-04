@@ -136,10 +136,10 @@ def umbralizar(img, umbral):
         if len(umbrales) == 2:
             u1, u2 = map(int, umbrales)
             if u1 > u2:
-                buff_mayor = new < u1
+                buff_mayor = new <= u1
                 buff_menor = new > u2
             else:
-                buff_mayor = new < u2
+                buff_mayor = new <= u2
                 buff_menor = new > u1
             
             mascara = np.logical_and(buff_mayor, buff_menor)
@@ -157,7 +157,7 @@ def umbralizar(img, umbral):
         umbral = common.is_int(umbral)
         
         if umbral is not None:
-            new[new > umbral] = 255
+            new[new >= umbral] = 255
             new[new < umbral] = 0
             
             titulo = f"Umbralizada: {umbral}"
