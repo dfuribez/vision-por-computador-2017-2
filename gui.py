@@ -18,10 +18,12 @@ from core import estadistica
 from core import filtros
 from core import common
 from core import bordes
+from core import etiquetar
 
 
 from gui import trans
 from gui import morf
+from gui import label
 
 gui_class = uic.loadUiType("gui/ui/main.ui")[0]
 
@@ -70,6 +72,8 @@ class Corel(QMainWindow, gui_class):
         self.actionRobinson.triggered.connect(lambda x: self.calcular_bordes("robinson"))
         self.actionMorfolog_a.triggered.connect(lambda x: self.window_morfo.show())
         self.actionInvertir.triggered.connect(self.invertir)
+        self.actionEtiquetar.triggered.connect(self.etiquetar)
+        self.actionVer.triggered.connect(self.ver)
         
         # Layouts
         self.imgOriginal.addWidget(self.canvas_original)
@@ -78,6 +82,8 @@ class Corel(QMainWindow, gui_class):
         # transformaciones
         self.window_trans = trans.Trans(self)
         self.window_morfo = morf.Morfo(self)
+        self.window_label = label.Label(self, None,  [1, 2, 3])
+        #self.window_label.show()
         #self.window_morfo.show()
     
     def menu(self):
@@ -346,6 +352,19 @@ class Corel(QMainWindow, gui_class):
         maximo = np.amax(self.imagen)
         new = maximo - self.imagen
         self.draw_nuevo(new, "Invertida")
+    
+    def etiquetar(self):
+        print(self.imagen.shape)
+        self.imagen[self.imagen > 0] = 1
+        new, etiquetas = etiquetar.etiquetar(self.imagen)
+        self.draw_nuevo(new, f"Etiquetada {len(etiquetas)} elementos", None)
+        self.window_label.etiquetada = new
+        self.window_label.elementos = etiquetas
+        self.window_label.combo()
+        self.window_label.show()
+    
+    def ver(self):
+        pass
 
 app = QApplication(sys.argv)
 corel = Corel(None)
