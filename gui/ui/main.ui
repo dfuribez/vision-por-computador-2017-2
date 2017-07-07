@@ -188,6 +188,12 @@
     <addaction name="actionEtiquetar"/>
     <addaction name="actionVer"/>
    </widget>
+   <widget class="QMenu" name="menuProyecto">
+    <property name="title">
+     <string>Proyecto</string>
+    </property>
+    <addaction name="actionPartitura"/>
+   </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuEstadistica"/>
    <addaction name="menuTRansformaciones"/>
@@ -195,6 +201,7 @@
    <addaction name="menuBordes"/>
    <addaction name="menuMorfolog_a"/>
    <addaction name="menuEtiquetar"/>
+   <addaction name="menuProyecto"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbrir">
@@ -340,6 +347,11 @@
   <action name="actionVer">
    <property name="text">
     <string>Ver etiquetas</string>
+   </property>
+  </action>
+  <action name="actionPartitura">
+   <property name="text">
+    <string>Leer partitura</string>
    </property>
   </action>
  </widget>
