@@ -125,7 +125,7 @@ def roi(img, etiqueta):
     
     roi[change] = 0
     #print ((x1, y1), (x2, y2), (x3, y3), (x4, y4))
-    return roi
+    return roi, ((x1, x2), (x3, x4))
 
 def perimetro(img):
     """Calcula el perimetro de un objeto.
