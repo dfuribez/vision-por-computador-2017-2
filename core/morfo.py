@@ -21,7 +21,7 @@ def core(img, kernel, op="dil"):
                     suma.append(img[fila-offset_x+x, columna-offset_y+y] + kernel[x, y])
             
             if op == "dil":
-                value = max(suma)
+                    value = max(suma)
             else:
                 value = min(suma)
             
