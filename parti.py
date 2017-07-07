@@ -1,5 +1,6 @@
 import numpy as np
-import sys
+
+
 from core import estadistica  # RGB2Gray
 from core import etiquetar  # Etiquetar elementos imagen binaria
 from core import morfo  # Aplicar operaciones morfológicas
@@ -9,23 +10,22 @@ from matplotlib import pyplot as plt
 
 IMAGEN = "img/partituras/burro_partitura1.jpg"
 #IMAGEN = "img/partituras/tetris.jpg"
-IMAGEN = "part2.png"
+IMAGEN = "part.png"
+IMAGEN = "part3.png"
 THRESH = 100
 KERNEL = np.array([[1, 1, 1, 1, 1, 1, 1],
                    [1, 1, 1, 1, 1, 1, 1],
                    [1, 1, 1, 1, 1, 1, 1]])
 
-#KERNEL = np.ones((3, 3))
-
-#KERNEL = np.array([[1, 1, 1]])
-
+NOMBRES = [0, "FA", "RE", "SI", "SOL", "MI"]
+NOMBRES_M = [0, "MI", "DO", "LA", "FA", "--"]
 
 def mayor(et, eti, umbral):
     
     encontrados = []
     u_filas, u_columnas = umbral
     for etiqueta in eti:
-        roi = etiquetar.roi(et, etiqueta)
+        roi, _ = etiquetar.roi(et, etiqueta)
         filas, columnas = roi.shape
         if filas >= u_filas and columnas >= u_columnas:
             encontrados.append(roi)
@@ -37,6 +37,14 @@ def find_lines(parte):
     new = np.zeros((filas, columnas))
     line = 1
     antes = False
+    notas = {
+        1: 0,  # FA
+        2: 0,  # RE
+        3: 0,  # SI
+        4: 0,  # SOL
+        5: 0,  # MI
+    }
+
     for fila in range(filas):
         suma = 0
         for columna in range(columnas):
@@ -46,24 +54,40 @@ def find_lines(parte):
         if suma >= (columnas // 2):
             
             if not antes:
+                notas[line] = fila
                 line += 1
+                
             
             new[fila,:] = line
             antes = True
         else:
             antes = False
-    return new
+    return new, notas
         
-def eliminar_lineas():
-    pass
+def get_note(lineas, coors, prom):
+    fila_prom = (coors[0][0] + coors[0][1]) // 2
+    nota = None
+    for x in range(1, 5):
+        if lineas[x] - prom <= fila_prom <= lineas[x] + prom:
+            nota = NOMBRES[x]
+        elif lineas[x+1] - prom < fila_prom < lineas[x+1] + prom:
+            nota = NOMBRES[x+1]
+        elif lineas[x] < fila_prom < lineas[x+1]:
+            nota = NOMBRES_M[x]
+        else:
+            #print(None)
+        if nota is not None:
+            return fila_prom, nota
+    return fila_prom, None
+
+def dist_prom(notas):
+    dist = 0
+    for x in range(1, 5):
+        dist += abs(notas[x] - notas[x+1])
+    return dist // 5
 
 imagen = common.abrir_imagen(IMAGEN)
 
-#plt.imshow(imagen, cmap="binary")
-#plt.show()
-
-#sys.exit(0)
-#input()
 
 if len(imagen.shape) == 3:
     print("Convirtiendo a escala de grises...")
@@ -73,8 +97,8 @@ if len(imagen.shape) == 3:
 print("invirtiendo xcolores...")
 imagen = np.amax(imagen) - imagen
 
-plt.imshow(imagen, cmap="gray")
-plt.show()
+#plt.imshow(imagen, cmap="gray")
+#plt.show()
 
 print("Aplicando umbral...")
 
@@ -82,31 +106,39 @@ print("Aplicando umbral...")
 imagen[imagen<THRESH] = 0
 imagen[imagen>=THRESH] = 1
 
-plt.imshow(imagen, cmap="binary")
-plt.show()
+#plt.imshow(imagen, cmap="binary")
+#plt.show()
 
 et, eti = etiquetar.etiquetar(imagen)
 
-print(eti)
-plt.imshow(et)
-plt.show()
+#plt.imshow(et)
+#plt.show()
 
 
 lineas = mayor(et, eti, (20, 200))
 print(f"{len(lineas)} lineas encontradas")
 for line in lineas:
-    plt.imshow(line, cmap="binary")
-    plt.show()
-    lineas = find_lines(line)
-    
+    linea_notas, coor_notas = find_lines(line)
+    prom =  dist_prom(coor_notas) // 3
     notas = morfo.core(line, KERNEL, "ero")
-    notas = morfo.core(notas, KERNEL)
-#
-    plt.imshow(notas)
+    notas[notas<10] = 0
+    notas[notas>=10] = 1
+    notas, _ = etiquetar.etiquetar(notas)
+    filas, columnas = notas.shape
+    recorridos = []
+    b_notas = []
+    for columna in range(columnas):
+        for fila in range(filas):
+            pixel = notas[fila, columna]
+            if pixel:
+                if not pixel in recorridos:
+                    recorridos.append(pixel)
+                    roi, coors = etiquetar.roi(notas, pixel)
+                    cx, note = get_note(coor_notas, coors, prom)
+                    if note is not None:
+                        b_notas.append(note)
+                    linea_notas[int(cx), columna] = 10
+    print(", ".join(b_notas))
+    plt.imshow(line)
     plt.show()
-    
-    plt.imshow(lineas)
-    plt.show()
-    
-    plt.imshow(lineas + notas)
-    plt.show()
+
